@@ -1,0 +1,42 @@
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - src/*.snk
+      - src/WebApi.Services.Example/**
+  pull_request:
+    branches: [ main ]
+    paths:
+      - src/*.snk
+      - src/WebApi.Services.Example/**
+
+defaults:
+  run:
+    working-directory: src/WebApi.Services.Example
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        sparse-checkout: |
+          src/WebApi.Services.snk
+          src/WebApi.Services.Example
+        sparse-checkout-cone-mode: false
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+    - name: Pack
+      run: dotnet pack --configuration Release
+    - name: Authenticate to package registry
+      run: dotnet nuget add source --username miguel-fernandez-corral --password ${{ secrets.PACKAGE_MANAGER_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/agap2-experiments/index.json"
+    - name: Push package
+      run: dotnet nuget push Service/bin/Release/WebApi.Services.Example.1.0.0.nupkg --api-key ${{ secrets.PACKAGE_MANAGER_TOKEN }} --source github
