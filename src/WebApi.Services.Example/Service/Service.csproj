@@ -15,6 +15,8 @@
 	<Authors>AGAP2</Authors>
 	<Company>AGAP2</Company>
 	<RepositoryUrl>https://github.com/agap2-experiments/webapi-services.git</RepositoryUrl>
+	<AssemblyVersion>1.0.0</AssemblyVersion>
+	<FileVersion>1.0.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>

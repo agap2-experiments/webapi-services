@@ -7,6 +7,11 @@ public static class ServiceExtensions
     public static IServiceCollection AddExampleService(this IServiceCollection self) => self
         .AddSingleton<IGetRandomNumberService, GetRandomNumberService>();
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="self"></param>
+    /// <returns></returns>
     public static IApplicationBuilder UseExampleService(this IApplicationBuilder self) => self
         .UseRouting()
         .UseEndpoints(builder =>
