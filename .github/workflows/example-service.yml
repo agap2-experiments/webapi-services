@@ -16,7 +16,7 @@ defaults:
 
 jobs:
   build:
-    runs-on: self-hosted
+    runs-on: ubuntu
     steps:
     - uses: actions/checkout@v4
       with:
